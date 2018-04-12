@@ -54,7 +54,7 @@ class HPlayer extends Player {
                     }
                 });
         System.out.println("after" + rollOrSkip);
-        
+
         io.sumDisplay(sum);
 
         if (!rollOrSkip) {
