@@ -32,7 +32,7 @@ class HPlayer extends Player {
 
         io.msgDisplay("It's your turn!");
 
-        System.out.println("before" + rollOrSkip);
+//        System.out.println("before" + rollOrSkip);
 
         io.listen
                 (new IListener () {
@@ -53,36 +53,42 @@ class HPlayer extends Player {
                         return numSkip;
                     }
                 });
-        System.out.println("after" + rollOrSkip);
+//        System.out.println("after" + rollOrSkip);
 
         io.sumDisplay(sum);
 
-        if (!rollOrSkip) {
-            io.msgDisplay("Second roll?");
-            io.listen
-                    (new IListener() {
-                        public void done() {
-                            turn.skip();
-                            done = true;
-                        }
+        if (sum <= 21) {
+            if (!rollOrSkip ) {
+                io.msgDisplay("Second roll?");
+                io.listen
+                        (new IListener() {
+                            public void done() {
+                                turn.skip();
+                                done = true;
+                            }
 
-                        public int roll() {
-                            int r = turn.roll();
-                            sum += r;
-                            return r;
-                        }
+                            public int roll() {
+                                int r = turn.roll();
+                                sum += r;
+                                return r;
+                            }
 
-                        public int skip() {
-                            turn.skip();
-                            numSkip--;
-                            return numSkip;
-                        }
-                    });
+                            public int skip() {
+                                turn.skip();
+                                numSkip--;
+                                return numSkip;
+                            }
+                        });
+            }
         }
+        else {
+            done = true;
+            io.msgDisplay("Oops, lost this one");
+        }
+
         // end of interaction
 
         io.sumDisplay(sum);
-        io.skipDisplay(numSkip);
 
         if (sum <= 21) {
             io.msgDisplay("Turn's up.");
