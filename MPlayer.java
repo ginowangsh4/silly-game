@@ -30,8 +30,7 @@ class MPlayer extends Player {
             } else {
                 sum += first;
             }
-            System.out.println(first + "+" + sum);
-
+//            System.out.println(first + "+" + sum);
         }
 
         io.sumDisplay(sum);
@@ -60,6 +59,9 @@ class MPlayer extends Player {
     static SPlayer s2;
     static Turn t3;
 
+    static MPlayer m3;
+    static SPlayer s3;
+    static Turn t4;
 
     public static void createExamples() {
         if (m1 == null) {
@@ -72,6 +74,11 @@ class MPlayer extends Player {
             m2 = new MPlayer("test2");
             s2 = new SPlayer(m2);
             t3 = new Turn(s2, new Die());
+        }
+        if (m3 == null) {
+            m3 = new MPlayer("test3");
+            s3 = new SPlayer(m3);
+            t4 = new Turn(s3, new Die());
         }
     }
 
@@ -106,5 +113,15 @@ class MPlayer extends Player {
         done = m2.turn(t3);
         Tester.check(done, "turn 2");
         Tester.check(m2.numSkip == 4, "skip 2");
+
+        // test for roll twice
+        m3.registerDisplay(TestIDisplay.testIDisplay);
+
+        m3.inform("welcome to player 3");
+
+        m3.sum = 0;
+        done = m3.turn(t4);
+        Tester.check(m3.sum >= 2, "roll twice 1"); // Min -> first roll = 1; second roll = 1;
+        Tester.check(m3.sum <= 9, "roll twice 2"); // Max -> fisrt roll = 3; second roll = 6;
     }
 }
